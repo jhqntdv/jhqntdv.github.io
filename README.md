@@ -11,4 +11,5 @@ bundle exec jekyll build
 bundle exec jekyll serve
 ```
 ## Note
+Github only support certain Jekyll theme build, chirpy is not supported. Thus, need to create own github actions.
 remove .nojekyll file so Github knows to use Jekyll to build
