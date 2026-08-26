@@ -6,22 +6,22 @@ order: 4
 
 ## About
 
-James received his B.S. in Mathematics at [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/). During school, he was introduced to financial engineering and conducted research at [Professor Han's Quant Lab](http://mx.nthu.edu.tw/~chhan/). After graduation, he joined the structured products desk at Development Bank of Singapore (DBS) until 2019. James completed his M.S. degree in [Mathematics at Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) in 2021, with concentrations in mathematical finance and data science.
+James is a quantitative analyst in the complex financial instrument valuation practice at Duff and Phelps (currently Kroll), based in the New York office. He leverages his background in mathematical finance in the valuation of complex financial instruments for financial reporting, tax, and corporate advisory purposes.
 
-He now works as a quantitative analyst at Duff and Phelps, a financial advisory firm specializing in complex financial instrument valuations.
+James's valuation experience includes the valuation of restricted stock units (RSU), earn-outs, contingent claims, warrants, preferred stock, profits interests, convertible bonds, and hybrid instruments.
 
-## Experiences
-
-- **Quantitative Analyst**, Duff and Phelps (currently Kroll), New York, NY, USA &mdash; *Aug 2021 - Present*
-- **Model Risk Analyst**, Valley National Bank, Morristown, NJ, USA &mdash; *Jan 2021 - Apr 2021*
-- **System Analyst**, Development Bank of Singapore (DBS), Taipei, Taiwan &mdash; *Jul 2018 - Aug 2019*
+James received a master's degree in [Mathematics from Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) with concentrations in mathematical finance. He holds a bachelor's degree in Mathematics from [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/), where he conducted research in financial engineering at [Professor Han's Quant Lab](http://mx.nthu.edu.tw/~chhan/). Prior to his graduate studies, he worked on the structured products desk at the Development Bank of Singapore (DBS).
 
 ## Past Projects
 
+- **[Pricing Engine for Structured Product](https://github.com/jhqntdv/pricing-engine-django)**  
+  <span style="color:gray;">June 2026</span>  
+  Structured Note Pricing Engine, supporting autocallable and phoenix.
+
 - **[Finteck - Option Pricing Website](https://finteck.onrender.com/)**  
-  <span style="color:gray;">October 2024</span>  
-  Finteck is built using Angular (Typescript), CI/CD with Docker and GitHub Actions, and hosted on Render.com.  
-  This web-based pricing tool supports options, convertible notes, and espp valuations.
+<span style="color:gray;">October 2024</span>  
+Finteck is built using Angular (Typescript), CI/CD with Docker and GitHub Actions, and hosted on Render.com.  
+This web-based pricing tool supports options, convertible notes, and espp valuations.
 
 - **[Online SPY DCA Calculator](https://spy-tradeview-quant.vercel.app/)**  
   <span style="color:gray;">October 2025</span>  
