@@ -118,3 +118,20 @@ To Resolve Multicollinearity:
 ---
 
 ## Time Series Analysis
+* Autocorrelation - mean of a series at time $t$ is related to mean of series at time $t-k$
+  * Check with Durbin-Watson test.
+
+## Statistical Distribution
+* Independent vs Uncorrelated
+  * Random Variables can be uncorrelated but not independent. Examples:
+    * $Y = X^2$, where $X$ is normally distributed with 0 mean.
+    * $Y = +X$ if $|X| < c$, $Y = -X$ if $|X| \geq c$
+  * Independent: $P(X|Y) = P(X)$ and $P(Y|X) = P(Y) $
+  * Uncorrelated: $Cov(X,Y) = 0 $
+
+* Normal Distribution
+  * 1-dimensional normal also known as Univariate Normal
+  * $X_i$'s are Jointly Normal iff $a_1 X_1 + \dots + a_n X_n$ are Normal for ANY $a_i$
+  * Multivariate Normal (Gaussian) $\implies$ any subset (even single variable) is also Gaussian
+  * Given a set of normal vairables $X_i$ doesn't imply Multivariate Normal
+     

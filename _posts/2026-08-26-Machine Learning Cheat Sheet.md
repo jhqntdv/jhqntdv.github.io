@@ -1,6 +1,6 @@
 ---
 title: Machine Learning Cheat Sheet
-date: 2026-08-26 00:00:00 +0000
+date: 2026-08-31 00:00:00 +0000
 categories: [Machine Learning]
 tags: [Machine Learning]
 description: Machine Learning Cheat Sheet
@@ -12,9 +12,9 @@ math: true
 
 Regularization adds a penalty term to the loss function to prevent overfitting:
 
-* **L1 Regularization (Lasso)**: Adds absolute value penalty ($\lambda \sum |w_i|$). Shrinks coefficients strictly to zero $\implies$ **Can be used for feature selection** (creates sparsity).
-* **L2 Regularization (Ridge)**: Adds squared penalty ($\lambda \sum w_i^2$). Shrinks coefficients close to zero but never to zero $\implies$ **Cannot perform feature selection** (keeps all features).
-* **Elastic Net**: Combines both L1 and L2 penalties ($\lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2$) for feature selection with correlated predictors.
+* L1 Regularization (Lasso): Adds absolute value penalty ($\lambda \sum |w_i|$). Shrinks coefficients strictly to zero. Can be used for feature selection (creates sparsity).
+* L2 Regularization (Ridge): Adds squared penalty ($\lambda \sum w_i^2$). Shrinks coefficients close to zero but never to zero. Cannot perform feature selection (keeps all features).
+* Elastic Net: Combines both L1 and L2 penalties ($\lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2$) for feature selection with correlated predictors.
 
 ## Model Evaluation Metrics
 
@@ -41,6 +41,16 @@ Regularization adds a penalty term to the loss function to prevent overfitting:
 
 * **AUC**: Area under the ROC curve, measuring overall discrimination capability ($AUC = 1$: perfect classifier, $AUC = 0.5$: random guess).
 
+* **PR-AUC vs ROC-AUC**:
+
+  | Feature | ROC-AUC | PR-AUC |
+  | :--- | :--- | :--- |
+  | Baseline | 0.5 random guess | Proportional to positive class proportion |
+  | Imbalance sensitivity | Low | High |
+  | Focus | Both classes equally | Positive class only |
+  | Interpretation | Prob (1's > 0's); Ranking | Average precision across recall values |
+  | Best for | General use | Imbalanced datasets|
+
 ### 2. Regression: MSE vs. MAE
 * **Mean Squared Error (MSE)**: Penalizes large errors heavily (due to squaring).
   $$ MSE = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2 $$
@@ -58,3 +68,59 @@ Ensemble learning combines multiple base models (weak learners) to produce a sin
   * Classic Application: Random Forest
 * **Boosting**: Trains models sequentially where each subsequent model focuses on the residual errors of the previous ones.
   * Classic Application: Gradient Boosting
+
+## Feature Selection
+Three types of feature selection:
+- Filter methods: looking at statistics
+- Wrapper methods: programmatically evaluating feature subsets (forward, backward methods, etc.). Looks at RMSE, Accuracy, Cross-Validation score.
+- Embedded methods: feature selection is part of the model training process (L1, L2, Tree-based models)
+
+Weight of Evidence (WoE) and Information Value (IV)
+* Binning is required for WoE and IV calculation.
+* WoE and IV are part of filter methods
+  * WoE - measures the strength of feature for "separation"
+    $$ WoE_i = \ln \left(\frac{G_i}{B_i}\right) $$
+    where $G_i$ is the % of non-events (in terms of total non-events) in the $i$-th bin and $B_i$ is the % of events (in terms of total events) in the $i$-th bin.
+  * IV - measures the predictive power of feature
+    $$ IV_i = \sum_{i} (G_i - B_i) \times WoE_i $$
+
+## Imbalance Data using SMOTE
+SMOTE (Synthetic Minority Oversampling Technique) finds "k-nearest neighbors" for minority class.
+* The sampling-strategy decides how many more minority class to sample. The higher, the more sensitive for minority class.
+
+* Confusion Matrix for Imbalanced Data before SMOTE
+
+  | | Predicted 1 | Predicted 0 |
+  | :--- | :--- | :--- |
+  | **Actual 1** | **TP (Near 0)**<br>Model fails to capture the rare class. | **FN (High)**<br>Most 1s are missed. |
+  | **Actual 0** | **FP (Low)**<br>Few false alarms because the model rarely predicts 1. | **TN (High)**<br>Model overwhelmingly predicts majority 0. |
+
+* Confusion Matrix for Imbalanced Data after SMOTE
+
+  | | Predicted 1 | Predicted 0 |
+  | :--- | :--- | :--- |
+  | **Actual 1** | **TP (Increases)**<br>More minority cases are captured (Higher Recall). | **FN (Decreases)**<br>Fewer missed detections; miss rate drops. |
+  | **Actual 0** | **FP (Increases)**<br>More false alarms as the model becomes more aggressive in predicting 1. | **TN (Decreases)**<br>Some 0s samples are now misclassified as 1. |
+
+* **SMOTE** Recall (TP Rate) $\uparrow$, but at the cost of Precision $\downarrow$.
+
+## General Rule
+
+### 1. Classification Decision Flow
+
+Step 1: Is the dataset balanced?
+* Balanced Data: Use ROC-AUC or Accuracy.
+* Highly Imbalanced Data: Use PR-AUC as it focuses on predicting the minority class.
+
+Step 2: Which error has a higher business cost?
+* High False Negative (FN) Cost: Missing an event is critical.
+  * Examples: Cancer detection, failing to identify a fraudulent transaction, missing a loan default.
+  * Optimization Target: Recall or F2-Score.
+* High False Positive (FP) Cost: False alarms are highly disruptive.
+  * Examples: Spam filtering, incorrectly flagging a low-risk client for audit.
+  * Optimization Target: Precision or F0.5-Score.
+* Balanced Costs:
+  * Optimization Target: F1-Score (Harmonic mean of Precision and Recall).
+
+Step 3: Threshold Adjustment
+* Train using PR-AUC, then evaluate the financial impact of FPs and FNs (Cost-Benefit Matrix) to manually set an optimal threshold that maximizes expected profit.

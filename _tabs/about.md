@@ -6,11 +6,11 @@ order: 4
 
 ## About
 
-James is a quantitative analyst in the complex financial instrument valuation practice at Duff and Phelps (currently Kroll), based in the New York office. He leverages his background in mathematical finance in the valuation of complex financial instruments for financial reporting, tax, and corporate advisory purposes.
+James is a quantitative analyst in the complex financial instrument valuation practice at Duff and Phelps (currently Kroll), based in the New York office. His valuation experience includes the valuation of restricted stock units (RSU), earn-outs, contingent claims, warrants, preferred stock, profits interests, convertible bonds, and hybrid instruments.
 
-James's valuation experience includes the valuation of restricted stock units (RSU), earn-outs, contingent claims, warrants, preferred stock, profits interests, convertible bonds, and hybrid instruments.
+Besides valuation services for financial reporting, tax, and corporate advisory purposes, James is also familiar with quantitative model development and validation.
 
-James received a master's degree in [Mathematics from Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) with concentrations in mathematical finance. He holds a bachelor's degree in Mathematics from [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/), where he conducted research in financial engineering at [Professor Han's Quant Lab](http://mx.nthu.edu.tw/~chhan/). Prior to his graduate studies, he worked on the structured products desk at the Development Bank of Singapore (DBS).
+James received a master's degree in [Mathematics from Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) with concentrations in mathematical finance. He holds a bachelor's degree in Mathematics from [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/), where he conducted research in financial engineering at [Professor Han's Quant Lab](http://mx.nthu.edu.tw/~chhan/). Prior to his graduate studies, he worked on the structured products desk at the Development Bank of Singapore (DBS Bank Taiwan Ltd.).
 
 ## Past Projects
 
