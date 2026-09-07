@@ -4,7 +4,7 @@ date: 2026-08-26 00:00:00 +0000
 categories: [Quant]
 tags: [Interest Rate, Fixed Income]
 description: Principal Component Analysis of the Treasury Yield Curve
-pin: false
+pin: true
 math: true
 ---
 ![Historical Treasury Yield Curve](/assets/img/posts/pca/ch1.png)

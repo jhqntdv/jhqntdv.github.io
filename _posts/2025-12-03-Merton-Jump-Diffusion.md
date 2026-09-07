@@ -8,6 +8,8 @@ pin: true
 math: true
 ---
 
+![Merton-Jump-Diffusion Model](/assets/img/posts/merton-jump/Merton-Jump.png){: style="display: block; margin: 0 auto;" }
+
 ## Introduction
 
 In derivative markets, many asset pricing models are still based on the Black–Scholes (BS) framework. However, the Black–Scholes model is overly "fixed-parameterized": volatility is treated as constant, the price path is continuous, and returns follow a log-normal distribution. While this setup makes the model simple, it ignores many observed market phenomena, such as fat tails and high peaks in the return distribution, sudden price jumps, and news-driven price shocks.
@@ -42,6 +44,8 @@ Where: $N_t$: The Poisson process, which dictates whether a jump occurs. $J$: Th
 
 Intuitively, this SDE means the price typically evolves by continuous diffusion, but when $dN_t = 1$, the price suddenly multiplies by $J$, causing a jump. The jump size and frequency are entirely controlled by extra parameters, allowing the model to better reflect discrete shocks like news announcements or credit events.
 
+![mjd-1](/assets/img/posts/merton-jump/Merton-Jump-1.png){: style="width: 48%; max-width: 380px;" }
+![mjd-2](/assets/img/posts/merton-jump/Merton-Jump-2.png){: style="width: 48%; max-width: 380px;" }
 
 ## Option Pricing under MJD
 Merton demonstrated that, even with the inclusion of jumps, the price of a European option can still be written in a "semi-closed form" solution. The method treats the option price as a weighted sum of Black–Scholes prices, conditional on the number of jumps that occur in a continuous diffusion process:
@@ -60,6 +64,8 @@ Where:
 - $C_{\text{BS}}(\cdot)$: The standard Black–Scholes European Call Option price
 
 This structure implies that the jump model can be computed by mixing multiple BS models, avoiding the need for complex simulation (Monte Carlo) or Partial Differential Equation (PDE) methods.
+
+![mjd-3](/assets/img/posts/merton-jump/Merton-Jump-3-bsc.png)
 
 ### Why are Jump Parameters not Often Directly Estimated by Practitioners?
 Empirical research shows that:
