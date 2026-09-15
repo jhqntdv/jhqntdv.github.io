@@ -1,5 +1,5 @@
 ---
-title: Quantiative Approach in Option Pricing Models (OPM)
+title: Quantitative Approach in Option Pricing Models (OPM)
 date: 2026-08-22 00:00:00 +0000
 categories: [Quant]
 tags: [Stochastic Process, Quant, MFin, Calibration]
@@ -56,7 +56,7 @@ The Merton model, developed by Robert C. Merton in 1974, treats a company's equi
 
 **Asset Volatility** represents the true, underlying business risk of the company's operations, independent of its capital structure. 
 
-**Equity Volatility** is the volatility of the stock price. It incorporates both the business risk (asset volatility) and the financial risk arising from leverage. Because leverage acts as fixed leverage, equity is generally riskier and more volatile than the underlying assets.
+**Equity Volatility** is the volatility of the stock price. It incorporates both the business risk (asset volatility) and the financial risk arising from leverage. Because debt acts as fixed financial leverage, equity is generally riskier and more volatile than the underlying assets.
 
 ### Application of the Merton Model for Private Companies
 
@@ -66,7 +66,7 @@ Using common volatility or asset volatility intentionally or as a proxy is not a
 
 ### The Relationship Between Equity Volatility and Common Volatility
 
-The relationship between equity volatility and common stock can be expressed mathematically:
+The relationship between equity volatility and common stock volatility can be expressed mathematically:
 
 $$ \sigma_C = \sigma_V \times \frac{\partial C}{\partial V} \times \frac{V}{C} $$
 
@@ -74,12 +74,12 @@ where $V$ is the total equity value, $C$ is the common stock value, $\sigma_V$ i
 
 As a company gets more leveraged (e.g., by issuing more debt or senior preferred shares), the ratio $V/C$ increases faster than the delta $\frac{\partial C}{\partial V}$ changes, leading to a higher $\Omega$. Consequently, **as leverage increases, the volatility of the common stock ($\sigma_C$) increases** relative to the underlying equity/asset volatility ($\sigma_V$). 
 
-The key takeaway is that the "leverage" of common stock can be measured, and in fact, the same expression applies to all equity securities (Preferred Shares, Profit Interests Units, Warrants).
+The key takeaway is that the "leverage" of common stock can be measured, and in fact, the same expression applies to all equity securities (Preferred Shares, Profits Interest Units, Warrants).
 
 ### Estimation of Class-Specific Volatility 
 
 In practice, specialists segregate class-specific volatility by looking at the leverage ratio of each security. The method is typically referred to as delta-adjustment. 
 
-On the dynamics, the class volatility changes with the company's volatility in the same direction but with a different magnitude. Also, the aggregated movement of each class ties back to the movement of equity following a log-normal distribution and the aggregate equity volatility.
+In terms of dynamics, the class volatility changes with the company's volatility in the same direction but with a different magnitude. Also, the aggregated movement of each class ties back to the movement of equity following a log-normal distribution and the aggregate equity volatility.
 
 The traditional process of estimating class-specific volatility typically involves building capital structure models, analyzing the breakpoints, deriving the value of each class, and applying the delta adjustment method. 

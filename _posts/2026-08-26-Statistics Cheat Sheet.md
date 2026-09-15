@@ -53,7 +53,7 @@ Detection Methods:
    * $VIF = 1$: Independent. $1 < VIF < 5$: Moderate correlation. $VIF \ge 5 \text{ to } 10$: Multicollinearity.
 
 To Resolve Multicollinearity:
-* Feature Removal: Drop one of the redundant variables by looking at lower p-value.
+* Feature Removal: Drop one of the redundant variables (typically the one with the higher p-value / lower t-statistic).
 * Regularization: Switch to Ridge Regression (L2) or Elastic Net.
 
 #### Phase 4: Post-Fit Diagnostics & Model Evaluation
@@ -74,7 +74,7 @@ To Resolve Multicollinearity:
   $$ \ln\left(\frac{p}{1 - p}\right) = X\beta $$
 * Key Distinctions from Linear Regression:
   * Estimated via **Maximum Likelihood Estimation (MLE)**.
-  * Log-odds (not $y$) is linear to $X$.
+  * Log-odds (not $y$) is linear in $X$.
   * Probability output $[0, 1]$.
 
 * Multinomial Logistic Regression (Softmax Regression):
@@ -113,7 +113,7 @@ To Resolve Multicollinearity:
   * PCA can be reversed to recover the original data if $m=p$.
   * PCA works on linear problems.
   * PCA does not assume any distribution of variables. However:
-    * If $X$ are jointly-normal, the PCs, which is a linear combination of normal variables, are also normal ($Z$ would be jointly-normal).
+    * If $X$ are jointly-normal, the PCs, which are linear combinations of normal variables, are also normal ($Z$ is jointly normal).
 
 ---
 
@@ -133,5 +133,5 @@ To Resolve Multicollinearity:
   * 1-dimensional normal also known as Univariate Normal
   * $X_i$'s are Jointly Normal iff $a_1 X_1 + \dots + a_n X_n$ are Normal for ANY $a_i$
   * Multivariate Normal (Gaussian) $\implies$ any subset (even single variable) is also Gaussian
-  * Given a set of normal vairables $X_i$ doesn't imply Multivariate Normal
+  * A given set of normal variables $X_i$ does not imply Multivariate Normality
      

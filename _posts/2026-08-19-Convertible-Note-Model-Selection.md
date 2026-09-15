@@ -8,15 +8,13 @@ pin: false
 math: true
 ---
 
-# Convertible Note Valuation Memo
-
 ## 1. Accounting Summary: ASC 470/815 vs ASC 825
 
 When dealing with convertible notes, companies must decide on the appropriate accounting treatment. The two primary frameworks are the bifurcation method (ASC 470/815) and the Fair Value Option (ASC 825).
 
 | Comparison Metric | ASC 470 / 815 (Bifurcation Method) | ASC 825 (Fair Value Option - FVO) |
 | :--- | :--- | :--- |
-| **Income Statement Volatility** | Lower (the host debt is amortized at a fixed effective rate, while the bifurcated embedded derivative is still marked to fair value through earnings each period | Higher (fair value fluctuations of the entire instrument hit earnings) |
+| **Income Statement Volatility** | Lower (the host debt is amortized at a fixed effective rate, while the bifurcated embedded derivative is still marked to fair value through earnings each period) | Higher (fair value fluctuations of the entire instrument hit earnings) |
 | **Valuation Complexity** | High | Low |
 | **Accounting Burden for Modifications** | High | Low |
 | **Financial Statement Presentation** | Complex (separates host debt and embedded derivative on the balance sheet and in footnotes) | Simplified (single liability line item, integrated with ASC 820 disclosures) |
@@ -35,7 +33,7 @@ Valuation specialists reference the AICPA PE/VC Guide when:
 - Determining the fair value of a convertible note under **ASC 825 (Fair Value Option)**.
 - Valuing the standalone embedded derivative required to be bifurcated under **ASC 815**.
 - Assessing the fair value of the host debt under **ASC 470**.
-- Justifying the selection of valuation model such as Binomial and Monte Carlo.
+- Justifying the selection of valuation models, such as Binomial and Monte Carlo.
 
 ---
 
@@ -48,7 +46,7 @@ Depending on the complexity of the instrument and underlying assumptions, valuat
 3. **Binomial / Lattice Model**
 4. **Monte Carlo Simulation**
 
-These approaches are used across accounting and financial reporting functions. (e.g. Big 4, corporate finance teams, and controllers).
+These approaches are used across accounting and financial reporting functions (e.g., Big 4, corporate finance teams, and controllers).
 
 ---
 
@@ -72,7 +70,7 @@ According to AICPA guidance (the *PE/VC Guide* and the *Cheap Stock Guide*), val
 
 ## 5. Embedded Derivative: The With-and-Without Method
  
-The most common technique specialists use to isolate the embedded derivative's value is the **with-and-without method**. The **"With" value** represents the fair value of the entire hybrid instrument and the **"Without" value** represents the fair value of a hypothetical plain-vanilla debt instrument. The residual is the value of the embedded derivative which represents the value of the optionality embedded in the note. If the convertible note has multiple features, the residual reflects the net value of all embedded features
+The most common technique specialists use to isolate the embedded derivative's value is the **with-and-without method**. The **"With" value** represents the fair value of the entire hybrid instrument and the **"Without" value** represents the fair value of a hypothetical plain-vanilla debt instrument. The residual is the value of the embedded derivative which represents the value of the optionality embedded in the note. If the convertible note has multiple features, the residual reflects the net value of all embedded features.
 
  
 ### Can the embedded derivative be negative or zero?

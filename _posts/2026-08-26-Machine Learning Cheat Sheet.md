@@ -78,15 +78,15 @@ Three types of feature selection:
 Weight of Evidence (WoE) and Information Value (IV)
 * Binning is required for WoE and IV calculation.
 * WoE and IV are part of filter methods
-  * WoE - measures the strength of feature for "separation"
+  * WoE - measures the strength of a feature for "separation"
     $$ WoE_i = \ln \left(\frac{G_i}{B_i}\right) $$
     where $G_i$ is the % of non-events (in terms of total non-events) in the $i$-th bin and $B_i$ is the % of events (in terms of total events) in the $i$-th bin.
-  * IV - measures the predictive power of feature
-    $$ IV_i = \sum_{i} (G_i - B_i) \times WoE_i $$
+  * IV - measures the predictive power of a feature
+    $$ IV = \sum_{i} (G_i - B_i) \times WoE_i $$
 
-## Imbalance Data using SMOTE
-SMOTE (Synthetic Minority Oversampling Technique) finds "k-nearest neighbors" for minority class.
-* The sampling-strategy decides how many more minority class to sample. The higher, the more sensitive for minority class.
+## Imbalanced Data using SMOTE
+SMOTE (Synthetic Minority Oversampling Technique) finds "k-nearest neighbors" for the minority class.
+* The sampling-strategy decides how many more minority class samples to generate. The higher the ratio, the more sensitive the model is to the minority class.
 
 * Confusion Matrix for Imbalanced Data before SMOTE
 
@@ -100,7 +100,7 @@ SMOTE (Synthetic Minority Oversampling Technique) finds "k-nearest neighbors" fo
   | | Predicted 1 | Predicted 0 |
   | :--- | :--- | :--- |
   | **Actual 1** | **TP (Increases)**<br>More minority cases are captured (Higher Recall). | **FN (Decreases)**<br>Fewer missed detections; miss rate drops. |
-  | **Actual 0** | **FP (Increases)**<br>More false alarms as the model becomes more aggressive in predicting 1. | **TN (Decreases)**<br>Some 0s samples are now misclassified as 1. |
+  | **Actual 0** | **FP (Increases)**<br>More false alarms as the model becomes more aggressive in predicting 1. | **TN (Decreases)**<br>Some class 0 samples are now misclassified as 1. |
 
 * **SMOTE** Recall (TP Rate) $\uparrow$, but at the cost of Precision $\downarrow$.
 

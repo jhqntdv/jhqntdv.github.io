@@ -16,12 +16,12 @@ James received a master's degree in [Mathematics from Rutgers University](https:
 
 - **[Pricing Engine for Structured Product](https://github.com/jhqntdv/pricing-engine-django)**  
   <span style="color:gray;">June 2026</span>  
-  Structured Note Pricing Engine, supporting autocallable and phoenix.
+  Structured Note Pricing Engine, supporting autocallable and phoenix notes.
 
 - **[Finteck - Option Pricing Website](https://finteck.onrender.com/)**  
 <span style="color:gray;">October 2024</span>  
 Finteck is built using Angular (Typescript), CI/CD with Docker and GitHub Actions, and hosted on Render.com.  
-This web-based pricing tool supports options, convertible notes, and espp valuations.
+This web-based pricing tool supports options, convertible notes, and ESPP valuations.
 
 - **[Online SPY DCA Calculator](https://spy-tradeview-quant.vercel.app/)**  
   <span style="color:gray;">October 2025</span>  

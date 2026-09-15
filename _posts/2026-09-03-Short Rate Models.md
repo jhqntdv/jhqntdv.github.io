@@ -13,7 +13,7 @@ math: true
 
 This document compares three foundational one-factor short-rate models: **Black-Derman-Toy (BDT)**, **Hull-White (HW)**, and **Black-Karasinski (BK)**. It highlights their structural trade-offs across distribution assumptions, mean-reversion mechanics, calibration speed, and practical implementation limits.
 
-**Refer to Interest Rate modeling Notebook:**
+**Refer to Interest Rate Modeling Notebooks:**
 * [Nelson-Siegel-Svensson and Cubic Spline Curve Fitting](https://github.com/jhqntdv/Interest-Rate-Modeling/blob/main/nss-spline-main.ipynb)
 * [Short Rate Models Notebook](https://github.com/jhqntdv/Interest-Rate-Modeling/blob/main/bdt-main.ipynb)
 
@@ -94,7 +94,7 @@ While using historical Treasury data is a generally accepted proxy for risk-mode
 If you fit every market point directly, the resulting instantaneous forward rate curve often exhibits wild, un-economic oscillations. NSS solves this by imposing a rigid, economically motivated mathematical shape that filters out noise and guarantees asymptotic stability across long horizons.
 
 ##### Mathematical Formulation
-The complete model is represented by 6-parameters:
+The complete model is represented by 6 parameters:
 
 $$y(t) = \beta_0 + \beta_1 \left(\frac{1 - e^{-t/\tau_1}}{t/\tau_1}\right) + \beta_2 \left(\frac{1 - e^{-t/\tau_1}}{t/\tau_1} - e^{-t/\tau_1}\right) + \beta_3 \left(\frac{1 - e^{-t/\tau_2}}{t/\tau_2} - e^{-t/\tau_2}\right)$$
 
@@ -106,7 +106,7 @@ $$y(t) = \beta_0 + \beta_1 \left(\frac{1 - e^{-t/\tau_1}}{t/\tau_1}\right) + \be
 | **$\beta_3$** | **Second Curvature / Twist** (Long-term) | Second hump or twist (long-end); peaks at $t \approx \tau_2$. |
 | **$\tau_1, \tau_2$** | **Scale / Decay Parameters** | Maturities where each respective hump reaches its peak. |
 
-The method does not fit all data points exactly and was not suitable for derivatives pricing.
+The method does not fit all data points exactly and is not suitable for derivatives pricing.
 
 ![Short Rate Models](/assets/img/posts/short-rate/yield_curve_evolution.gif)
 
