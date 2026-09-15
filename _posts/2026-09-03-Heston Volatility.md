@@ -220,7 +220,7 @@ Variance swap pricing is independent of asset-price drift errors. Under continuo
 | QE (Continuous Integral) | 0.063955 | 0.000169 | 25.289311 | -0.837943 | -0.130849 |
 | QE (Discrete Daily Sum) | 0.064032 | 0.000173 | 25.304565 | -0.066181 | -0.010334 |
 
-At $N = 100,000$ paths, the QE scheme's bias (-0.07 to -0.84 bps) is not statistically distinguishable from zero ($|t| < 1$), consistent with its accurate matching of the CIR transition density even under severe Feller violation. In contrast, Full Truncation exhibits statistically significant bias ($5.0\text{–}6.2$ bps, $t \approx 3.0\text{–}3.6$), confirming that Euler truncation introduces a systematic error that persists regardless of sample size.
+At 100,000 paths (N = 100,000), the QE scheme's bias (-0.07 to -0.84 bps) is not statistically distinguishable from zero (absolute t-stat < 1), consistent with its accurate matching of the CIR transition density even under severe Feller violation. In contrast, Full Truncation exhibits statistically significant bias (5.0 to 6.2 bps, t-stat approximately 3.0 to 3.6), confirming that Euler truncation introduces a systematic error that persists regardless of sample size.
 
 ![Variance Swap Step Size Analysis](/assets/img/posts/heston/step_size_analysis_var_swap.png)
 
@@ -323,7 +323,15 @@ The table below contrasts the calibrated parameters against the true underlying 
 
 The two-stage calibration achieves high parameter recovery across the board, with all parameter errors remaining under 2.2% (and under 0.4% for $\theta$, $\xi$, $\rho$, and $v_0$), demonstrating that combining global differential evolution with MSRE loss effectively navigates the non-convex surface to recover the ground-truth parameters even under Feller violation.
 
-![Heston Implied Volatility Surface](/assets/img/posts/heston/vol_surface_heston.png){: width="49%"} ![Heston Implied Volatility Smile](/assets/img/posts/heston/vol_smile_heston.png){: width="49%"}
+<div class="row g-3 mb-4" style="display: flex; gap: 15px; margin-bottom: 1.5rem;">
+  <div class="col-md-6" style="flex: 1; min-width: 0;">
+    <img src="/assets/img/posts/heston/vol_surface_heston.png" alt="Heston Implied Volatility Surface" class="w-100 rounded" style="width: 100%; height: auto;" />
+  </div>
+  <div class="col-md-6" style="flex: 1; min-width: 0;">
+    <img src="/assets/img/posts/heston/vol_smile_heston.png" alt="Heston Implied Volatility Smile" class="w-100 rounded" style="width: 100%; height: auto;" />
+  </div>
+</div>
+
 ![Market vs Model Price After Calibration](/assets/img/posts/heston/market_model_price_after_calibration.png)
 
 ### Application: PnL Attribution (Greek Explain)
@@ -384,5 +392,5 @@ In rough volatility models, the driving fractional Brownian motion has a Hurst p
 * **Lyuu, Y.-D. (2016)**. *Stochastic-Volatility Models and Continuous-Time Derivatives Pricing*. Lecture Notes, Department of Computer Science & Information Engineering, National Taiwan University. Available at: [https://www.csie.ntu.edu.tw/~lyuu/finance1/2016/20160420.pdf](https://www.csie.ntu.edu.tw/~lyuu/finance1/2016/20160420.pdf).
 
 ### My Own Python Notebooks
-* [Heston Stochastic Volatility - Part 1](https://github.com/jhqntdv/Heston-Stochastic-Volatility-Modeling/blob/main/heston-main.ipynb)
-* [Heston Stochastic Volatility - Part 2](https://github.com/jhqntdv/Heston-Stochastic-Volatility-Modeling/blob/main/heston-main-2.ipynb)
+* [Heston Stochastic Volatility - Part 1](https://github.com/jhqntdv/Heston-Stochastic-Volatility-Modeling/blob/main/Heston%20Vol/heston-main.ipynb)
+* [Heston Stochastic Volatility - Part 2](https://github.com/jhqntdv/Heston-Stochastic-Volatility-Modeling/blob/main/Heston%20Vol/heston-main-2.ipynb)
