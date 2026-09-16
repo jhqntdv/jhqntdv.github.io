@@ -134,4 +134,37 @@ To Resolve Multicollinearity:
   * $X_i$'s are Jointly Normal iff $a_1 X_1 + \dots + a_n X_n$ are Normal for ANY $a_i$
   * Multivariate Normal (Gaussian) $\implies$ any subset (even single variable) is also Gaussian
   * A given set of normal variables $X_i$ does not imply Multivariate Normality
+
+---
+
+## Hypothesis Testing & Standard Error
+
+### 1. Standard Deviation (SD) vs. Standard Error (SE)
+* **Standard Deviation ($s$)**: Measures the dispersion/variability of individual observations around the sample mean:
+  $$ s = \sqrt{\frac{1}{N-1}\sum_{i=1}^N (x_i - \bar{x})^2} $$
+* **Standard Error ($\text{SE}$)**: Measures the precision/variability of the sample mean estimator $\bar{x}$:
+  $$ \text{SE} = \frac{s}{\sqrt{N}} $$
+  * By the Central Limit Theorem (CLT), $\text{SE}$ decreases at rate $O(1/\sqrt{N})$ as sample size $N$ increases.
+
+### 2. One-Sample $t$-Statistic
+Tests whether an observed sample mean $\bar{x}$ differs significantly from a hypothesized population value $\mu_0$ (typically $H_0: \mu = \mu_0$):
+$$ t = \frac{\bar{x} - \mu_0}{\text{SE}} = \frac{\bar{x} - \mu_0}{s / \sqrt{N}} $$
+
+* **Intuition**:
+  * Represents a **signal-to-noise ratio**: how many standard errors the sample mean lies away from the null hypothesis $\mu_0$.
+  * Differentiates a **statistically significant effect** from **random sampling variation**.
+
+* **Rule-of-Thumb Interpretations & Conclusions (Two-Tailed)**:
+  * **$|t| < 1.0$ (Noise-Dominated)**:
+    * The sample mean lies within $1\text{ SE}$ of $\mu_0$ ($<68\%$ coverage).
+    * *Conclusion*: **Fail to reject $H_0$.** The deviation is well within expected sampling noise; no evidence of an effect.
+  * **$1.0 \le |t| < 1.96$ (Borderline / Inconclusive)**:
+    * The deviation exceeds $1\text{ SE}$ but remains within the $95\%$ confidence band ($\pm 1.96\,\text{SE}$).
+    * *Conclusion*: **Fail to reject $H_0$ at $\alpha = 0.05$ ($p > 0.05$).** Statistically inconclusive; a larger sample size $N$ is required to detect small effects.
+  * **$|t| \ge 1.96 \approx 2.0$ (Statistically Significant)**:
+    * Falls in the critical rejection region at the $5\%$ level ($p \le 0.05$).
+    * *Conclusion*: **Reject $H_0$.** Sampling variation alone is unlikely to explain the difference; evidence of a true non-zero effect.
+  * **$|t| \ge 3.0$ (Highly Significant)**:
+    * Far outside random chance ($p < 0.003$, $>99.7\%$ confidence level).
+    * *Conclusion*: **Strongly reject $H_0$.** Strong evidence of a systematic effect.
      

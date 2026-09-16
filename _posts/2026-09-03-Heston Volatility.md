@@ -12,10 +12,10 @@ math: true
 
 This article covers the implementation, simulation, and pricing of derivatives under the Heston stochastic volatility model:
 
-* [**Part 1: Heston Model Mechanics & Simulation Schemes**](#heston-model-mechanics--simulation-schemes): Heston SDE formulation, Feller condition, QE simulation, martingale corrections, and simulation diagnostics.
-* [**Part 2: Pricing Variance Swaps**](#pricing-variance-swaps): Variance swap fundamentals, closed-form strike, Carr-Madan model-free pricing, and simulation error analysis.
-* [**Part 3: Pricing European Vanilla Options & Calibration**](#pricing-european-vanilla-options--calibration): Fourier pricing, Monte Carlo diagnostics, Greeks, put-call parity, and Heston model calibration.
-* [**Part 4: Appendix & Advanced Frontiers**](#appendix--advanced-frontiers): Local Stochastic Volatility (LSV) and rough volatility.
+* [**Part 1: Heston Model Mechanics & Simulation Schemes**](#2-heston-model-mechanics--simulation-schemes): [Heston SDE formulation](#heston-model-sde-formulation), [Feller condition](#the-feller-condition--boundary-behavior), [QE simulation](#andersens-quadratic-exponential-qe-scheme), [martingale corrections](#martingale-corrections-local-vs-global-approaches), and [simulation diagnostics](#simulation-diagnostics--error-analysis).
+* [**Part 2: Pricing Variance Swaps**](#3-pricing-variance-swaps): [Variance swap fundamentals](#fundamentals-of-variance-swaps), [closed-form strike](#closed-form-strike-formula), [Carr-Madan model-free pricing](#model-free-pricing-the-carr-madan-spanning-formula), and [simulation error analysis](#immunity-to-asset-level-martingale-errors).
+* [**Part 3: Pricing European Vanilla Options & Calibration**](#4-pricing-european-vanilla-options--calibration): [Fourier pricing](#option-pricing-dynamics-and-semi-analytical-solutions), [Monte Carlo diagnostics](#monte-carlo-diagnostics), [Greeks](#application-pnl-attribution-greek-explain), [put-call parity](#put-call-parity-as-a-litmus-test), and [Heston model calibration](#model-calibration-workflow).
+* [**Part 4: Appendix & Advanced Frontiers**](#5-appendix--advanced-frontiers): [Local Stochastic Volatility (LSV)](#from-stochastic-volatility-to-local-stochastic-volatility-lsv) and [rough volatility](#rough-volatility-paradigms).
 
 ---
 
@@ -128,7 +128,11 @@ if correction == PriceCorrection.ANDERSEN:
     )
 ```
 
-An alternative is the **Empirical Martingale Simulation (EMS)** by Duan and Simonato, which applies a global, cross-sectional rescaling across all simulated paths ($\tilde{S}_{t_k}^{(m)} = S_{t_k}^{(m)} \times S_0 e^{rt_k}/\bar{S}_{t_k}$) to enforce the theoretical forward price. While EMS requires maintaining all paths in memory, it satisfies put-call parity and provides built-in variance reduction.
+An alternative is the **Empirical Martingale Simulation (EMS)** by Duan and Simonato, which applies a global, cross-sectional rescaling across all simulated paths at each time step $t_k$:
+
+$$ \tilde{S}_{t_k}^{(m)} = S_{t_k}^{(m)} \frac{S_0 e^{(r - q)t_k}}{\bar{S}_{t_k}} $$
+
+where $\bar{S}_{t_k} = \frac{1}{M} \sum_{m=1}^M S_{t_k}^{(m)}$ is the cross-sectional sample mean across all $M$ paths at time step $t_k$, enforcing the theoretical forward price. While EMS requires maintaining all paths in memory, it satisfies put-call parity and provides built-in variance reduction.
 
 ### Simulation Diagnostics & Error Analysis
 
@@ -247,7 +251,7 @@ where $\phi_1(u)$ and $\phi_2(u)$ are the characteristic functions evaluated und
 
 ### Monte Carlo Diagnostics
 
-The table below compares our Monte Carlo pricer to the semi-analytical Fourier inversion benchmark for the ATM option configured earlier ($N = 100,000$ paths). While the Put estimate remains within one standard error ($z \approx 0.96$), the uncorrected Call exhibits a persistent constant dollar drift ($z \approx 3.19$, outside the 95% confidence interval $\text{Price}_{\text{MC}} \pm 1.96\,\text{SE}$), illustrating how discretization drift manifests when martingale corrections are omitted.
+The table below compares a single-run Monte Carlo pricer (Euler Full Truncation without correction, $N = 100,000$ paths) to the semi-analytical Fourier inversion benchmark for the ATM option configured earlier. While the Put estimate remains within one standard error ($z \approx 0.96$), the uncorrected Call in this individual run exhibits a noticeable error ($z \approx 3.19$, outside $\text{Price}_{\text{MC}} \pm 1.96\,\text{SE}$). Because single simulation runs are susceptible to finite-sample fluctuations, we conduct formal multi-seed put-call parity tests below to rigorously distinguish systematic drift from sampling noise.
 
 | Option Type | Analytical Price | MC Price | MC Error | MC Std Error |
 | :--- | :--- | :--- | :--- | :--- |
@@ -269,31 +273,51 @@ When evaluating Monte Carlo option pricers, put-call parity acts as a first-mome
 
 $$ C(K, T) - P(K, T) = S_0 e^{-qT} - K e^{-rT} $$
 
-Without a martingale correction, discretization of the Heston spot process can introduce a first-moment drift error, which directly appears as a put-call parity violation. Andersen's conditional correction removes this drift error at the conditional level; residual parity deviations are then primarily attributable to finite Monte Carlo sampling error and any remaining implementation/discretization effects. EMS enforces the unconditional forward exactly by construction.
+Discretization of the Heston spot process can, in principle, introduce a first-moment drift error that manifests as a put-call parity violation. EMS enforces the unconditional forward exactly by construction, since it rescales the cross-sectional mean of simulated spots to match the theoretical forward at every monitoring date. Andersen's conditional correction instead targets the martingale condition at the level of each discretization step, so any residual parity deviation it exhibits is a joint outcome of implementation effects and finite-sample noise rather than a deliberately unenforced quantity.
 
-| Method | Call | Put | $C - P$ | Target | Parity Error |
+To assess parity consistency while controlling for single-run sampling variance, the put-call parity test was run across 100 independent seeds with 50,000 simulations per seed (effective sample size $N = 5{,}000{,}000$):
+
+| Scheme | Parity Error | SE | $t$-stat |
+| :--- | :--- | :--- | :--- |
+| Heston FT (None) | 0.006671 | 0.013678 | 0.488 |
+| Heston QE (EMS) | -0.000000 | 0.000000 | -4.976 |
+| Heston QE (Andersen M-Corr) | -0.005711 | 0.012743 | -0.448 |
+
+*(Ran across 100 different seeds with 50,000 simulations per seed)*
+
+At this sample size, neither the uncorrected FT scheme nor the Andersen-corrected QE scheme shows a parity error statistically distinguishable from zero ($|t| < 1$ for both). This indicates that, for this parameter set, any first-moment drift bias from spot discretization is small relative to Monte Carlo sampling noise — put-call parity alone is not a sensitive enough diagnostic to separate the two schemes on this axis. This does not imply the schemes are equivalent: as the Simulation Diagnostics section shows, FT's boundary truncation produces a clearly significant bias in the *second moment* (integrated variance, $t \approx 3$–$4$ at comparable sample sizes), even where its effect on the first moment remains undetectable here. EMS's parity error is mechanically pinned near machine precision by its rescaling construction (its small but statistically nonzero residual reflects that $C-P$ is a nonlinear function of the rescaled spot, not a first-moment leak), so its $t$-statistic is not comparable to the other two schemes and is not informative about drift bias.
+
+#### European Call Option Pricing & Martingale Correction Diagnostics
+
+To evaluate how the simulation schemes and martingale corrections perform when pricing vanilla options and estimating finite-difference Greeks, we price a European call option ($\text{Payoff} = e^{-rT}\max(S_T - K, 0)$) across the same 100 independent Monte Carlo seeds with 50,000 simulations per seed, using Common Random Numbers (CRN) for variance reduction on the Greek estimators. The table below compares resulting option prices, first- and second-order Greeks, and estimator variances across the simulation schemes:
+
+| Scheme | Price | Delta ($\Delta$) | Gamma ($\Gamma$) | Vega ($\mathcal{V}$) | Vega SE | Vega Std | True SE | Naive SE |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Heston FT (None) | 12.1228 | 0.6780 | 0.013650 | 42.3910 | 0.0450 | 0.4496 | 0.0072 | 0.0673 |
+| Heston QE (EMS) | 12.0363 | 0.6808 | 0.013659 | 43.4087 | 0.0359 | 0.3593 | 0.0042 | 0.0664 |
+| Heston QE (Andersen M-Corr) | 12.0325 | 0.6806 | 0.013722 | 43.3911 | 0.0561 | 0.5608 | 0.0071 | 0.0664 |
+
+*(Ran across 100 different seeds with 50,000 simulations per seed)*
+
+##### Vega Difference Significance Test
+
+| Comparison ($A - B$) | Diff | Comb SE | $t$-stat | Paired $t$ | Significance |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Heston Analytical | 12.027745 | 9.651586 | 2.376159 | 2.376159 | 0.000000 |
-| Heston MC (FT None) | 12.180358 | 9.703519 | 2.476839 | 2.376159 | 0.100680 |
-| Heston MC (FT EMS) | 12.112086 | 9.735926 | 2.376159 | 2.376159 | 0.000000 |
-| Heston MC (QE Andersen) | 11.932602 | 9.725950 | 2.206652 | 2.376159 | -0.169507 |
-| Black-Scholes Analytical | 5.557349 | 3.181189 | 2.376159 | 2.376159 | 0.000000 |
+| Heston FT (None) $-$ Heston QE (EMS) | -1.0177 | 0.0576 | -17.684 | -17.899 | $p < 0.001$ (Highly Sig.) |
+| Heston FT (None) $-$ Heston QE (Andersen M-Corr) | -1.0001 | 0.0719 | -13.914 | -13.267 | $p < 0.001$ (Highly Sig.) |
+| Heston QE (EMS) $-$ Heston QE (Andersen M-Corr) | 0.0176 | 0.0666 | 0.265 | 0.285 | $p \ge 0.05$ (Not Sig. / Noise) |
 
-#### Asian Call Option Pricing & Martingale Correction Diagnostics
+Prices across all three schemes closely match the semi-analytical Fourier benchmark ($C = 12.0277$), with Delta and Gamma virtually identical. For Vega, both QE schemes ($\mathcal{V}_{\text{EMS}} = 43.41 \pm 0.04$, $\mathcal{V}_{\text{Andersen}} = 43.39 \pm 0.06$) recover the benchmark ($\mathcal{V}_{\text{analytical}} = 43.40$) with high precision, and their difference is statistically indistinguishable from zero ($t = 0.27, p = 0.79$).
 
-To evaluate how forward drift leakage affects path-dependent derivatives, we price an arithmetic Asian call option ($\text{Payoff} = e^{-rT} \max(\frac{1}{N}\sum_{i=1}^N S_{t_i} - K, 0)$) across 30 independent Monte Carlo seeds ($N = 5,000$ paths per seed) using Common Random Numbers (CRN). The table below compares the resulting option prices, first- and second-order Greeks, and estimator variances across the simulation schemes:
+In contrast, Full Truncation produces a systematically depressed Vega ($\mathcal{V}_{\text{FT}} = 42.39 \pm 0.04$). The two-sample significance test confirms that this $\sim 1.02$ discrepancy is statistically significant ($t = -17.68$, paired $t = -17.90$, $p < 10^{-30}$) rather than Monte Carlo estimator noise. Under severe Feller violation ($\text{Feller ratio} = 0.38$), the zero-clamping mechanism in Euler truncation dampens variance trajectory responsiveness to parameter perturbations ($v_0 \pm \delta v$), resulting in a statistically verifiable, modest ($\sim 2.3\%$) structural underestimation of Vega.
 
-| Scheme | Price | Delta ($\Delta$) | Gamma ($\Gamma$) | Vega ($\mathcal{V}$) | Vega Std | True SE | Naive SE |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Heston FT (None) | 7.6188 | 0.6239 | 0.021035 | 34.0391 | 1.1032 | 0.1334 | 0.1356 |
-| Heston QE (EMS) | 7.5912 | 0.6258 | 0.021618 | 34.4584 | 0.4717 | 0.0903 | 0.1342 |
-| Heston QE (Andersen M-Corr) | 7.6181 | 0.6270 | 0.021500 | 34.6572 | 0.9500 | 0.1125 | 0.1345 |
+Meanwhile, the $10\text{--}20\times$ reduction from **Naive SE** to **True SE** across all schemes confirms the power of CRN in cancelling correlated path shocks between bumped and base simulations.
 
 The forward drift bias $\mathbb{E}[S_t] - S_0 e^{(r-q)t}$ across the simulated paths is visualized below:
 
 ![Forward Drift Martingale Deviation](/assets/img/posts/heston/drift_correction.png)
 
-The forward drift trajectory confirms this decomposition visually: the FT (None) trajectory exhibits a persistent, direction-consistent drift bias that lies clearly outside the zero line even after accounting for Monte Carlo noise (shaded 95% confidence band across 30 independent seeds). In contrast, the Andersen (M-Corr) trajectory, despite showing a smooth deviation from zero due to the autocorrelation structure of path noise, remains fully contained within its 95% confidence band throughout the entire path. This indicates that the apparent drift is statistically indistinguishable from sampling noise, consistent with the conditional martingale property being correctly enforced at each time step. Meanwhile, the EMS trajectory tracks zero exactly by construction via cross-sectional rescaling.
+The forward drift trajectory confirms this decomposition visually across the 100 independent seeds: EMS tracks zero exactly by construction via cross-sectional rescaling. For Andersen (M-Corr) and FT (None), the forward drift deviations remain contained within their 95% confidence bands along the path and at maturity (consistent with the put-call parity $t$-statistics of $-0.448$ and $0.488$). This confirms that residual first-moment drift deviations remain statistically indistinguishable from sampling noise across this sample size.
 
 ### Model Calibration Workflow
 Calibrating the parameters involves minimizing a loss function against market-quoted option surfaces. The calibration workflow is structured around the following steps:
