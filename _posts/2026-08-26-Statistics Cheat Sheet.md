@@ -1,10 +1,11 @@
 ---
 title: Statistics Cheat Sheet
 date: 2026-08-26 00:00:00 +0000
-categories: [Quant]
+categories: [Notes]
 tags: [Statistics]
 description: Statistics Cheat Sheet
 pin: false
+hidden: true
 math: true
 ---
 
@@ -118,8 +119,59 @@ To Resolve Multicollinearity:
 ---
 
 ## Time Series Analysis
-* Autocorrelation - mean of a series at time $t$ is related to mean of series at time $t-k$
-  * Check with Durbin-Watson test.
+
+* **Stationarity (Weak / Covariance Stationary)**:
+  * **Conditions**: Constant mean $E[y_t] = \mu$, constant variance $\text{Var}(y_t) = \sigma^2$, and autocovariance $\text{Cov}(y_t, y_{t-k})$ dependent only on lag $k$ (not time $t$).
+  * **How to Check**:
+    1. *Visual*: Non-decaying ACF (suggests non-stationarity) or trending rolling mean/variance.
+    2. *Statistical Test — Augmented Dickey-Fuller (ADF)*:
+       * Tests for a unit root: $\Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \sum_{i=1}^p \delta_i \Delta y_{t-i} + \epsilon_t$.
+       * $H_0: \gamma = 0$ (Unit root exists $\implies$ Non-Stationary).
+       * $H_1: \gamma < 0$ (No unit root $\implies$ Stationary).
+       * **ADF Statistic Interpretation**:
+         * Test statistic is always negative; **more negative $\implies$ stronger rejection of unit root**.
+         * **Statistic < Critical Value** (or **$p\text{-value} < 0.05$**): **Reject $H_0 \implies$ Series is Stationary**.
+         * **Statistic > Critical Value** ($p \ge 0.05$): **Fail to reject $H_0 \implies$ Non-Stationary** (needs differencing).
+
+* **ARIMA$(p, d, q)$**:
+  * **Parameters**:
+    * **$p$ (Auto-Regressive, AR)**: Number of lag observations included in the model ($y_t$ depends on past values $y_{t-1}, \dots, y_{t-p}$).
+    * **$d$ (Integrated, I)**: Degree of differencing needed to achieve stationarity ($\Delta^d y_t = (1-B)^d y_t$).
+    * **$q$ (Moving Average, MA)**: Number of lagged forecast error terms included ($y_t$ depends on past white noise shocks $\epsilon_{t-1}, \dots, \epsilon_{t-q}$).
+  * **Equation**: $\phi(B)(1-B)^d y_t = c + \theta(B)\epsilon_t$.
+  * **Common Specifications & Real-Life Data**:
+    * **$\text{ARIMA}(1,0,0)$ — $\text{AR}(1)$**:
+      * *Formula*: $y_t = c + \phi_1 y_{t-1} + \epsilon_t$ ($|\phi_1| < 1$).
+      * *Properties*: Mean-reverting process with exponentially decaying autocorrelation.
+      * *Real-Life Fit*: **Short-term interest rates** (e.g., Vasicek model), **credit default swap (CDS) spreads**, and commodity mean-reverting basis.
+    * **$\text{ARIMA}(0,1,0)$ — Random Walk**:
+      * *Formula*: $y_t = y_{t-1} + c + \epsilon_t \implies \Delta y_t = c + \epsilon_t$.
+      * *Properties*: Non-stationary; best prediction of tomorrow is today's level plus drift $c$.
+      * *Real-Life Fit*: **Stock prices / FX exchange rates** under the Efficient Market Hypothesis.
+    * **$\text{ARIMA}(1,1,0)$ — Differenced $\text{AR}(1)$**:
+      * *Formula*: $\Delta y_t = c + \phi_1 \Delta y_{t-1} + \epsilon_t$.
+      * *Properties*: Changes/returns exhibit momentum or autocorrelation before decaying.
+      * *Real-Life Fit*: **Macroeconomic inflation rates**, **quarterly GDP levels**, and trending asset series.
+    * **$\text{ARIMA}(0,0,1)$ — $\text{MA}(1)$**:
+      * *Formula*: $y_t = c + \epsilon_t + \theta_1 \epsilon_{t-1}$.
+      * *Properties*: Finite 1-period shock memory; autocorrelation cuts off abruptly after lag 1.
+      * *Real-Life Fit*: **Microstructure bid-ask bounce** in high-frequency returns, inventory adjustment deviations.
+
+* **Vector Autoregression (VAR)**:
+  * **Definition**: A multivariate time-series extension of AR models that captures dynamic linear interdependencies among multiple time series.
+  * **Core Concept**: Every variable is treated as endogenous and modeled as a function of its own lagged values and the lagged values of all other variables in the system.
+  * **Model Form (for $k$ variables, $p$ lags)**:
+    $$ Y_t = c + A_1 Y_{t-1} + A_2 Y_{t-2} + \dots + A_p Y_{t-p} + \epsilon_t $$
+    where $Y_t \in \mathbb{R}^k$, $A_i$ are $k \times k$ coefficient matrices, and $\epsilon_t \sim \text{WN}(0, \Sigma)$.
+  * **Requirements & Applications**:
+    * Requires all series to be stationary (if cointegrated non-stationary series, use **VECM**).
+    * Used for **macroeconomic policy analysis** (e.g., joint response of Fed Funds Rate, Inflation, and GDP growth), **cross-asset volatility spillover**, and **impulse response function (IRF)** analysis.
+
+* **Autocorrelation & Diagnostics**:
+  * Autocorrelation: Correlation between series $y_t$ and its lagged values $y_{t-k}$.
+  * Durbin-Watson test: Detects first-order autocorrelation in residuals ($d \approx 2 \implies$ no autocorrelation, $d < 2 \implies$ positive autocorrelation).
+
+---
 
 ## Statistical Distribution
 * Independent vs Uncorrelated

@@ -1,10 +1,11 @@
 ---
 title: Machine Learning Cheat Sheet
 date: 2026-08-31 00:00:00 +0000
-categories: [Machine Learning]
+categories: [Notes]
 tags: [Machine Learning]
 description: Machine Learning Cheat Sheet
 pin: false
+hidden: true
 math: true
 ---
 
@@ -15,6 +16,35 @@ Regularization adds a penalty term to the loss function to prevent overfitting:
 * L1 Regularization (Lasso): Adds absolute value penalty ($\lambda \sum |w_i|$). Shrinks coefficients strictly to zero. Can be used for feature selection (creates sparsity).
 * L2 Regularization (Ridge): Adds squared penalty ($\lambda \sum w_i^2$). Shrinks coefficients close to zero but never to zero. Cannot perform feature selection (keeps all features).
 * Elastic Net: Combines both L1 and L2 penalties ($\lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2$) for feature selection with correlated predictors.
+
+## Overfitting: Patterns, Diagnostics & Prevention
+
+* **Definition & Core Behavior**:
+  * The model fits noise, random fluctuations, and sample-specific idiosyncrasies rather than the true underlying data-generating distribution.
+  * **Bias-Variance Tradeoff**: High Variance, Low Bias. The model is overly sensitive to small variations in the training set.
+
+* **Observable Patterns & Impact on Prediction**:
+  * **Generalization Gap**: Very high training accuracy (or near-zero training loss) paired with significantly worse validation/test performance.
+  * **Exploding Coefficients & Complex Boundaries**: Decision boundaries become unnaturally convoluted; regression weights grow excessively large ($|w| \gg 0$) to fit edge-case outliers.
+  * **Impact on Prediction**:
+    * **High Out-of-Sample Prediction Variance**: Forecasts on unseen data become unstable and erratic.
+    * **Overconfidence & Fragility**: The model makes high-confidence errors and fails under data drift or market regime shifts.
+
+* **Diagnostic Tools & Checks**:
+  * **Learning Curves (Train vs. Validation Loss)**:
+    * Plot loss against epochs or training set size. Overfitting is diagnosed when training loss keeps declining while validation loss bottoms out and begins to diverge upward (the "U-curve").
+  * **$k$-Fold Cross-Validation Gap**:
+    * Measure $\Delta = \text{Score}_{\text{train}} - \text{Score}_{\text{val}}$. A substantial divergence indicates overfitting.
+  * **Train vs. Test Residual Analysis**:
+    * Compare error distributions. Test residuals that are significantly larger and display systematic structure indicate poor generalization.
+
+* **Prevention Techniques**:
+  * **1. Regularization**: Apply L1 (Lasso) to enforce sparsity or L2 (Ridge) / Elastic Net to shrink parameter magnitudes.
+  * **2. Early Stopping**: Halt training dynamically when validation loss stops improving over $N$ consecutive evaluations.
+  * **3. Tree Pruning & Structural Constraints**: Restrict tree complexity by setting `max_depth`, `min_samples_split`, and `min_samples_leaf`.
+  * **4. Ensemble Methods (Bagging)**: Average predictions across multiple independently trained models (e.g., Random Forests) to reduce variance without increasing bias.
+  * **5. Feature Selection & Dimensionality Reduction**: Remove uninformative/collinear features via PCA, Information Value (IV), or feature importance thresholds.
+  * **6. Data Augmentation & Dropout**: Expand training coverage with noise injection or synthetic samples; apply Dropout in neural networks to prevent feature co-adaptation.
 
 ## Model Evaluation Metrics
 

@@ -6,11 +6,11 @@ order: 4
 
 ## About
 
-James is a quantitative analyst in the complex financial instrument valuation practice at Duff and Phelps (currently Kroll), based in the New York office. His valuation experience includes the valuation of restricted stock units (RSU), earn-outs, contingent claims, warrants, preferred stock, profits interests, convertible bonds, and hybrid instruments.
+James is a Senior Associate in the Security Valuation practice at Kroll (formerly Duff & Phelps), based in the Greater New York area. He specializes in the quantitative valuation of complex financial instruments for M&A, tax, and financial reporting purposes.
 
-Besides valuation services for financial reporting, tax, and corporate advisory purposes, James has experience in quantitative model development and validation.
+His experience encompasses private company equity waterfalls, convertible debt, contingent claims, and executive compensation awards. In addition to valuation services, he develops quantitative frameworks and analytical tools to streamline valuation workflows.
 
-James received a master's degree in [Mathematics from Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) with concentrations in mathematical finance. He holds a bachelor's degree in Mathematics from [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/). Prior to his graduate studies, he worked on the structured products desk at the Development Bank of Singapore (DBS Bank Taiwan Ltd.).
+James holds an M.S. in Mathematical Finance from [Rutgers University](https://finmath.rutgers.edu/about-us-finmath/welcome) and a B.S. in Mathematics from [National Tsing Hua University (NTHU)](https://www.nthu.edu.tw/). Earlier in his career, he worked on structured products and quantitative risk at DBS Bank and Valley Bank.
 
 ## Past Projects
 
@@ -23,6 +23,7 @@ James received a master's degree in [Mathematics from Rutgers University](https:
 Finteck is built using Angular (Typescript), CI/CD with Docker and GitHub Actions, and hosted on Render.com.  
 This web-based pricing tool supports options, convertible notes, and ESPP valuations.
 
-- **[Online SPY DCA Calculator](https://spy-tradeview-quant.vercel.app/)**  
-  <span style="color:gray;">October 2025</span>  
-  A dynamic backtesting platform for the S&P 500, featuring historical data since 1995 and advanced analytics with macro indicators like the CNN Fear & Greed Index, Best of N Rule, and VWAP.
+- **[Interest Rate Term Structure Modeling](https://github.com/jhqntdv/Interest-Rate-Modeling)**  
+  <span style="color:gray;">August 2026</span>  
+  Applied PCA to the U.S. Treasury yield curve to extract Level, Slope, and Curvature factors for fixed-income factor hedging and P&L attribution. ([Article](/posts/Principal-Component-Analysis-of-the-Treasury-Yield-Curve/))
+
