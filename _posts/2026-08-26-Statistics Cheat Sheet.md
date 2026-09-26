@@ -47,7 +47,7 @@ Multicollinearity leads to unstable parameter estimates without affecting overal
 * Although overall $R^2$ and prediction power may still be high, standard errors of coefficients inflate drastically, and p-values become unreliable.
 
 Detection Methods:
-1. Pairwise Pearson correlation ($|r| > 0.8$ implies severe collinearity)
+1. Pairwise Pearson correlation ($\lvert r \rvert > 0.8$ implies severe collinearity)
 2. **Variance Inflation Factor (VIF)**:
    * Regresses each feature $X_j$ against all other remaining predictors:
      $$ VIF_j = \frac{1}{1 - R_j^2} $$
@@ -80,10 +80,10 @@ To Resolve Multicollinearity:
 
 * Multinomial Logistic Regression (Softmax Regression):
   * **Sigmoid** ($K = 2$, Binary Classification):
-    $$ P(Y=1|X) = \sigma(z) = \frac{1}{1 + e^{-X\beta}} $$
-    $$ P(Y=0|X) = 1 - P(Y=1|X) $$
+    $$ P(Y=1 \mid X) = \sigma(z) = \frac{1}{1 + e^{-X\beta}} $$
+    $$ P(Y=0 \mid X) = 1 - P(Y=1 \mid X) $$
   * **Softmax** ($K \ge 3$, Multiclass Classification):
-    $$ P(Y=k|X) = \frac{e^{X\beta_k}}{\sum_{j=1}^K e^{X\beta_j}} \quad \text{where } \sum_{k=1}^K P(Y=k|X) = 1 $$
+    $$ P(Y=k \mid X) = \frac{e^{X\beta_k}}{\sum_{j=1}^K e^{X\beta_j}} \quad \text{where } \sum_{k=1}^K P(Y=k \mid X) = 1 $$
   * Softmax outputs a probability distribution across $K$ classes. Sigmoid is Softmax when $K=2$.
 
 ---
@@ -141,7 +141,7 @@ To Resolve Multicollinearity:
   * **Equation**: $\phi(B)(1-B)^d y_t = c + \theta(B)\epsilon_t$.
   * **Common Specifications & Real-Life Data**:
     * **$\text{ARIMA}(1,0,0)$ — $\text{AR}(1)$**:
-      * *Formula*: $y_t = c + \phi_1 y_{t-1} + \epsilon_t$ ($|\phi_1| < 1$).
+      * *Formula*: $y_t = c + \phi_1 y_{t-1} + \epsilon_t$ ($\lvert \phi_1 \rvert < 1$).
       * *Properties*: Mean-reverting process with exponentially decaying autocorrelation.
       * *Real-Life Fit*: **Short-term interest rates** (e.g., Vasicek model), **credit default swap (CDS) spreads**, and commodity mean-reverting basis.
     * **$\text{ARIMA}(0,1,0)$ — Random Walk**:
@@ -177,8 +177,8 @@ To Resolve Multicollinearity:
 * Independent vs Uncorrelated
   * Random Variables can be uncorrelated but not independent. Examples:
     * $Y = X^2$, where $X$ is normally distributed with 0 mean.
-    * $Y = +X$ if $|X| < c$, $Y = -X$ if $|X| \geq c$
-  * Independent: $P(X|Y) = P(X)$ and $P(Y|X) = P(Y) $
+    * $Y = +X$ if $\lvert X \rvert < c$, $Y = -X$ if $\lvert X \rvert \geq c$
+  * Independent: $P(X \mid Y) = P(X)$ and $P(Y \mid X) = P(Y) $
   * Uncorrelated: $Cov(X,Y) = 0 $
 
 * Normal Distribution
@@ -207,16 +207,16 @@ $$ t = \frac{\bar{x} - \mu_0}{\text{SE}} = \frac{\bar{x} - \mu_0}{s / \sqrt{N}} 
   * Differentiates a **statistically significant effect** from **random sampling variation**.
 
 * **Rule-of-Thumb Interpretations & Conclusions (Two-Tailed)**:
-  * **$|t| < 1.0$ (Noise-Dominated)**:
+  * **$\lvert t \rvert < 1.0$ (Noise-Dominated)**:
     * The sample mean lies within $1\text{ SE}$ of $\mu_0$ ($<68\%$ coverage).
     * *Conclusion*: **Fail to reject $H_0$.** The deviation is well within expected sampling noise; no evidence of an effect.
-  * **$1.0 \le |t| < 1.96$ (Borderline / Inconclusive)**:
+  * **$1.0 \le \lvert t \rvert < 1.96$ (Borderline / Inconclusive)**:
     * The deviation exceeds $1\text{ SE}$ but remains within the $95\%$ confidence band ($\pm 1.96\,\text{SE}$).
     * *Conclusion*: **Fail to reject $H_0$ at $\alpha = 0.05$ ($p > 0.05$).** Statistically inconclusive; a larger sample size $N$ is required to detect small effects.
-  * **$|t| \ge 1.96 \approx 2.0$ (Statistically Significant)**:
+  * **$\lvert t \rvert \ge 1.96 \approx 2.0$ (Statistically Significant)**:
     * Falls in the critical rejection region at the $5\%$ level ($p \le 0.05$).
     * *Conclusion*: **Reject $H_0$.** Sampling variation alone is unlikely to explain the difference; evidence of a true non-zero effect.
-  * **$|t| \ge 3.0$ (Highly Significant)**:
+  * **$\lvert t \rvert \ge 3.0$ (Highly Significant)**:
     * Far outside random chance ($p < 0.003$, $>99.7\%$ confidence level).
     * *Conclusion*: **Strongly reject $H_0$.** Strong evidence of a systematic effect.
      

@@ -13,9 +13,9 @@ math: true
 
 Regularization adds a penalty term to the loss function to prevent overfitting:
 
-* L1 Regularization (Lasso): Adds absolute value penalty ($\lambda \sum |w_i|$). Shrinks coefficients strictly to zero. Can be used for feature selection (creates sparsity).
+* L1 Regularization (Lasso): Adds absolute value penalty ($\lambda \sum \lvert w_i \rvert$). Shrinks coefficients strictly to zero. Can be used for feature selection (creates sparsity).
 * L2 Regularization (Ridge): Adds squared penalty ($\lambda \sum w_i^2$). Shrinks coefficients close to zero but never to zero. Cannot perform feature selection (keeps all features).
-* Elastic Net: Combines both L1 and L2 penalties ($\lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2$) for feature selection with correlated predictors.
+* Elastic Net: Combines both L1 and L2 penalties ($\lambda_1 \sum \lvert w_i \rvert + \lambda_2 \sum w_i^2$) for feature selection with correlated predictors.
 
 ## Overfitting: Patterns, Diagnostics & Prevention
 
@@ -25,7 +25,7 @@ Regularization adds a penalty term to the loss function to prevent overfitting:
 
 * **Observable Patterns & Impact on Prediction**:
   * **Generalization Gap**: Very high training accuracy (or near-zero training loss) paired with significantly worse validation/test performance.
-  * **Exploding Coefficients & Complex Boundaries**: Decision boundaries become unnaturally convoluted; regression weights grow excessively large ($|w| \gg 0$) to fit edge-case outliers.
+  * **Exploding Coefficients & Complex Boundaries**: Decision boundaries become unnaturally convoluted; regression weights grow excessively large ($\lvert w \rvert \gg 0$) to fit edge-case outliers.
   * **Impact on Prediction**:
     * **High Out-of-Sample Prediction Variance**: Forecasts on unseen data become unstable and erratic.
     * **Overconfidence & Fragility**: The model makes high-confidence errors and fails under data drift or market regime shifts.
@@ -34,7 +34,9 @@ Regularization adds a penalty term to the loss function to prevent overfitting:
   * **Learning Curves (Train vs. Validation Loss)**:
     * Plot loss against epochs or training set size. Overfitting is diagnosed when training loss keeps declining while validation loss bottoms out and begins to diverge upward (the "U-curve").
   * **$k$-Fold Cross-Validation Gap**:
-    * Measure $\Delta = \text{Score}_{\text{train}} - \text{Score}_{\text{val}}$. A substantial divergence indicates overfitting.
+    * Measure score divergence:
+      $$ \Delta = \text{Score}_{\text{train}} - \text{Score}_{\text{val}} $$
+    * A substantial divergence indicates overfitting.
   * **Train vs. Test Residual Analysis**:
     * Compare error distributions. Test residuals that are significantly larger and display systematic structure indicate poor generalization.
 
@@ -86,7 +88,7 @@ Regularization adds a penalty term to the loss function to prevent overfitting:
   $$ MSE = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2 $$
   * *Choose MSE when*: Large errors are especially undesirable/costly, and the dataset is relatively clean with few extreme outliers.
 * **Mean Absolute Error (MAE)**: Penalizes errors linearly and is robust to extreme values.
-  $$ MAE = \frac{1}{n} \sum_{i=1}^n |y_i - \hat{y}_i| $$
+  $$ MAE = \frac{1}{n} \sum_{i=1}^n \lvert y_i - \hat{y}_i \rvert $$
   * *Choose MAE when*: The dataset has significant outliers or heavy-tailed noise, and you want predictions to be robust against extreme observations.
 
 

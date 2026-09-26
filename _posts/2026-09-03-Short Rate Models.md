@@ -47,7 +47,7 @@ The geometric construction of the underlying lattice differs substantially acros
 
 #### Arrow-Debreu Forward Induction
 
-Arrow-Debreu forward induction is a sequential calibration technique that propagates state prices level by level through the lattice. An Arrow-Debreu price represents the present value at time zero of a contract that pays \$1 if a specific node is reached at a future time step and \$0 otherwise.
+Arrow-Debreu forward induction is a sequential calibration technique that propagates state prices level by level through the lattice. An Arrow-Debreu price represents the present value at time zero of a contract that pays <span>$</span>1 if a specific node is reached at a future time step and <span>$</span>0 otherwise.
 
 In traditional backward induction, calibrating interest rates at step $t$ would require repeatedly rolling back prices across the entire tree from the horizon, leading to computationally prohibitive global root-finding. By contrast, Arrow-Debreu forward induction works forward in time: once state prices are determined up to level $t-1$, the price of any zero-coupon bond maturing at step $t$ can be expressed as a simple dot product of the known state prices and the discount factors at step $t$. This isolates calibration to a localized, one-step numerical problem at each time slice, dramatically reducing overall computational complexity to $O(n^2)$ while guaranteeing an exact fit to the market term structure.
 
