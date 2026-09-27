@@ -69,7 +69,7 @@ Where:
 
 This structure implies that the jump model can be computed by mixing multiple BS models, avoiding the need for complex simulation (Monte Carlo) or Partial Differential Equation (PDE) methods.
 
-![mjd-3](/assets/img/posts/merton-jump/Merton-Jump-3-bsc.png)
+![mjd-3](/assets/img/posts/merton-jump/Merton-Jump-3-bsc.png){: style="display: block; margin: 0 auto; max-width: 550px;" }
 
 ### Why are Jump Parameters not Often Directly Estimated by Practitioners?
 Empirical research shows that:

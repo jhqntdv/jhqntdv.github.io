@@ -144,28 +144,40 @@ For ongoing market risk management and desk limit monitoring, regulatory stress 
 * **$\text{VaR}_{\text{PC3}}$ (Curvature VaR):** Tail loss driven by belly humping or wing movements (butterfly risk).
 
 #### 2.2 Matrix Formulation of Factor VaR
-The historical simulation of $N$-day Factor VaR is computed via three vectorized matrix operations:
+The historical simulation of $$N$$-day Factor VaR is computed via three vectorized matrix operations:
 
-1. **Factor Sensitivity Vector ($\mathbf{dv01}_{\text{factor}}$):**  
-   Project the portfolio tenor DV01 vector $\mathbf{dv01} \in \mathbb{R}^M$ ($M = 7$ tenors) onto the latest rolling loading matrix $\mathbf{L} \in \mathbb{R}^{K \times M}$ ($K = 3$ components):
-   $$ \mathbf{dv01}_{\text{factor}} = \mathbf{L} \, \mathbf{dv01} = \begin{bmatrix} \text{DV01}_{\text{PC1}} \\ \text{DV01}_{\text{PC2}} \\ \text{DV01}_{\text{PC3}} \end{bmatrix} \in \mathbb{R}^K $$
+**1. Factor Sensitivity Vector ($$\mathbf{dv01}_{\text{factor}}$$):**  
+Project the portfolio tenor DV01 vector $$\mathbf{dv01} \in \mathbb{R}^M$$ ($$M = 7$$ tenors) onto the latest rolling loading matrix $$\mathbf{L} \in \mathbb{R}^{K \times M}$$ ($$K = 3$$ components):
 
-2. **Historical Component PnL Matrix ($\mathbf{\Pi}$):**  
-   Given the matrix of rolling $N$-day cumulative factor shocks $\mathbf{S} \in \mathbb{R}^{T \times K}$ ($\mathbf{S}_{t, :} = \sum_{i=0}^{N-1} \mathbf{f}_{t-i}$ across $T$ historical days), scale each factor column by its respective sensitivity:
-   $$ \mathbf{\Pi} = - \mathbf{S} \, \text{diag}(\mathbf{dv01}_{\text{factor}}) \in \mathbb{R}^{T \times K} $$
-   where $\Pi_{t, k} = - S_{t, k} \cdot \text{DV01}_{\text{factor}, k}$ is the simulated PnL from factor $k$ on historical day $t$.
+$$
+\mathbf{dv01}_{\text{factor}} = \mathbf{L} \, \mathbf{dv01} = \begin{bmatrix} \text{DV01}_{\text{PC1}} \\ \text{DV01}_{\text{PC2}} \\ \text{DV01}_{\text{PC3}} \end{bmatrix} \in \mathbb{R}^K
+$$
 
-3. **95% Factor VaR Vector:**  
-   Extract the 5th percentile across each factor column independently:
-   $$ \mathbf{VaR}_{95\%} = \text{Percentile}_{5} \left( \mathbf{\Pi}, \text{axis}=0 \right) = \begin{bmatrix} \text{VaR}_{\text{PC1}} \\ \text{VaR}_{\text{PC2}} \\ \text{VaR}_{\text{PC3}} \end{bmatrix} \in \mathbb{R}^K $$
+**2. Historical Component PnL Matrix ($$\mathbf{\Pi}$$):**  
+Given the matrix of rolling $$N$$-day cumulative factor shocks $$\mathbf{S} \in \mathbb{R}^{T \times K}$$ ($$\mathbf{S}_{t, :} = \sum_{i=0}^{N-1} \mathbf{f}_{t-i}$$ across $$T$$ historical days), scale each factor column by its respective sensitivity:
+
+$$
+\mathbf{\Pi} = - \mathbf{S} \, \text{diag}(\mathbf{dv01}_{\text{factor}}) \in \mathbb{R}^{T \times K}
+$$
+
+where $$\Pi_{t, k} = - S_{t, k} \cdot \text{DV01}_{\text{factor}, k}$$ is the simulated PnL from factor $$k$$ on historical day $$t$$.
+
+**3. 95% Factor VaR Vector:**  
+Extract the 5th percentile across each factor column independently:
+
+$$
+\mathbf{VaR}_{95\%} = \text{Percentile}_{5} \left( \mathbf{\Pi}, \text{axis}=0 \right) = \begin{bmatrix} \text{VaR}_{\text{PC1}} \\ \text{VaR}_{\text{PC2}} \\ \text{VaR}_{\text{PC3}} \end{bmatrix} \in \mathbb{R}^K
+$$
 
 ### 3. Independent Risk Factors
 
 A key advantage of PCA in portfolio risk management is the **orthogonality** of its components. Because raw Treasury yields across tenors are highly collinear, individual tenor DV01 exposures obscure the underlying curve drivers. With orthogonal factors, daily portfolio PnL can be linearly decomposed into independent risk dimensions:
 
-$$ \Delta \text{PnL}_{\text{Actual}} \approx \text{PnL}_{\text{Level}} + \text{PnL}_{\text{Slope}} + \text{PnL}_{\text{Curvature}} + \text{Residual} $$
+$$
+\Delta \text{PnL}_{\text{Actual}} \approx \text{PnL}_{\text{Level}} + \text{PnL}_{\text{Slope}} + \text{PnL}_{\text{Curvature}} + \text{Residual}
+$$
 
-where factor PnL is computed as $\text{PnL}_{k} = - \Delta f_k \cdot \text{DV01}_{\text{factor}, k}$, and the residual captures anything not accounted for by the first three components.
+where factor PnL is computed as $$\text{PnL}_{k} = - \Delta f_k \cdot \text{DV01}_{\text{factor}, k}$$, and the residual captures anything not accounted for by the first three components.
 
 ![PnL Attribution](/assets/img/posts/pca/ch3.png){: style="display: block; margin: 0 auto;" }
 
