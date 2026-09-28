@@ -22,6 +22,9 @@ This approach can derive price, class-specific volatility, and delta simultaneou
 
 Note that this setup inherently derives class-specific delta and volatility. Specialists often neglect the fact that under the OPM framework, Merton's model already determines the link between common volatility, equity volatility, and the distribution of total equity value.
 
+**Refer to Capital Structure OPM Analysis Code:**
+* [Capital Structure OPM Analysis (Batch Valuation, Greeks & Calibration Engine)](https://github.com/jhqntdv/409A-OPM/tree/main)
+
 ### The Objective Function
 
 The objective function for this calibration can be written as:
