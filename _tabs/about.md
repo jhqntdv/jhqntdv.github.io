@@ -2,6 +2,8 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 4
+title: "James Huang | Quantitative Finance & Complex Securities Valuation | Kroll"
+description: ""
 ---
 
 ## About
@@ -26,4 +28,4 @@ This web-based pricing tool supports options, convertible notes, and ESPP valuat
 - **[Interest Rate Term Structure Modeling](https://github.com/jhqntdv/Interest-Rate-Modeling)**  
   <span style="color:gray;">August 2026</span>  
   Applied PCA to the U.S. Treasury yield curve to extract Level, Slope, and Curvature factors for fixed-income factor hedging and P&L attribution. ([Article](/posts/Principal-Component-Analysis-of-the-Treasury-Yield-Curve/))
-
+

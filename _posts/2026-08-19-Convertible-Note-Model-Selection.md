@@ -3,7 +3,7 @@ title: Convertible Note Model Selection
 date: 2026-08-19 00:00:00 +0000
 categories: [Valuation]
 tags: [Accounting, Valuation, Convertible Note]
-description: Guide to Convertible Note Valuation Models and Accounting
+description: Comprehensive comparison of convertible note valuation models (binomial tree vs Monte Carlo) and ASC 470/815 bifurcation vs ASC 825 fair value option for complex securities practitioners
 pin: false
 math: true
 ---
