@@ -2,7 +2,7 @@
 # the default layout is 'page'
 icon: fas fa-info-circle
 order: 4
-title: "James Huang | Quantitative Finance & Complex Securities Valuation | Kroll"
+title: "James Huang | Quantitative Finance"
 description: ""
 ---
 
